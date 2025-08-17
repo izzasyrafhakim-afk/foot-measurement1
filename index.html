@@ -53,43 +53,7 @@
       authDomain: "shoe-availibility.firebaseapp.com",
       databaseURL: "https://shoe-availibility-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "shoe-availibility",
-      storageBucket: "shoe-availibility.appspot.com",
-      messagingSenderId: "933219809430",
-      appId: "1:933219809430:web:cc5f6f9e049e34dccf2ab7",
-      measurementId: "G-RL4RRM3FP3"
-    };
+      storageBucke
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-
-    // Reference to "measurements"
-    const ref = database.ref("measurements");
-
-    ref.on("value", (snapshot) => {
-      const data = snapshot.val();
-      const table = document.getElementById("data-table");
-      table.innerHTML = "";
-
-      if (!data) {
-        table.innerHTML = "<tr><td colspan='4'>No data found</td></tr>";
-        return;
-      }
-
-      Object.keys(data).forEach(key => {
-        const row = data[key];
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${row.timestamp || key}</td>
-          <td>${row.length_cm || "-"}</td>
-          <td>${row.uk_size || "-"}</td>
-          <td>${row.gender || "-"}</td>
-        `;
-        table.appendChild(tr);
-      });
-    });
-  </script>
-</body>
-</html>
 
 
