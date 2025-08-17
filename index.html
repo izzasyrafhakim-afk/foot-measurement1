@@ -1,10 +1,95 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Foot Measurement System</title>
-  </head>
-  <body>
-    <h1>✅ Your Website Works!</h1>
-    <p>This is hosted on GitHub Pages.</p>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>Foot Measurement System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 40px;
+    }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 60%;
+    }
+    table, th, td {
+      border: 1px solid black;
+      padding: 10px;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>👟 Foot Measurement Results</h1>
+  <p>Live data from Firebase:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Length (cm)</th>
+        <th>Width (cm)</th>
+        <th>UK Size</th>
+        <th>Gender</th>
+      </tr>
+    </thead>
+    <tbody id="data-table">
+      <tr><td colspan="5">Loading data...</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+
+  <script>
+    // 🔑 Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBuc1TlEb0zEnwaj1Kof_vBjJS_Dwk_fFA",
+      authDomain: "shoe-availibility.firebaseapp.com",
+      databaseURL: "https://shoe-availibility-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "shoe-availibility",
+      storageBucket: "shoe-availibility.appspot.com",
+      messagingSenderId: "933219809430",
+      appId: "1:933219809430:web:cc5f6f9e049e34dccf2ab7",
+      measurementId: "G-RL4RRM3FP3"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Reference your measurement data (change path if needed)
+    const ref = database.ref("measurements");
+
+    ref.on("value", (snapshot) => {
+      const data = snapshot.val();
+      const table = document.getElementById("data-table");
+      table.innerHTML = "";
+
+      if (!data) {
+        table.innerHTML = "<tr><td colspan='5'>No data found</td></tr>";
+        return;
+      }
+
+      Object.keys(data).forEach(key => {
+        const row = data[key];
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.timestamp || key}</td>
+          <td>${row.length_cm || "-"}</td>
+          <td>${row.width_cm || "-"}</td>
+          <td>${row.uk_size || "-"}</td>
+          <td>${row.gender || "-"}</td>
+        `;
+        table.appendChild(tr);
+      });
+    });
+  </script>
+</body>
 </html>
