@@ -33,13 +33,12 @@
       <tr>
         <th>Timestamp</th>
         <th>Length (cm)</th>
-        <th>Width (cm)</th>
         <th>UK Size</th>
         <th>Gender</th>
       </tr>
     </thead>
     <tbody id="data-table">
-      <tr><td colspan="5">Loading data...</td></tr>
+      <tr><td colspan="4">Loading data...</td></tr>
     </tbody>
   </table>
 
@@ -64,7 +63,7 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
-    // Reference your measurement data (change path if needed)
+    // Reference to "measurements"
     const ref = database.ref("measurements");
 
     ref.on("value", (snapshot) => {
@@ -73,7 +72,7 @@
       table.innerHTML = "";
 
       if (!data) {
-        table.innerHTML = "<tr><td colspan='5'>No data found</td></tr>";
+        table.innerHTML = "<tr><td colspan='4'>No data found</td></tr>";
         return;
       }
 
@@ -83,7 +82,6 @@
         tr.innerHTML = `
           <td>${row.timestamp || key}</td>
           <td>${row.length_cm || "-"}</td>
-          <td>${row.width_cm || "-"}</td>
           <td>${row.uk_size || "-"}</td>
           <td>${row.gender || "-"}</td>
         `;
